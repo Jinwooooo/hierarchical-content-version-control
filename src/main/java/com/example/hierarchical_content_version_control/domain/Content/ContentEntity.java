@@ -1,4 +1,4 @@
-package com.example.hierarchical_content_version_control.domain.Content;
+package com.example.hierarchical_content_version_control.domain.content;
 
 public class ContentEntity {
     

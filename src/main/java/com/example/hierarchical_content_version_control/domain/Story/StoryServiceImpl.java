@@ -1,4 +1,4 @@
-package com.example.hierarchical_content_version_control.domain.Story;
+package com.example.hierarchical_content_version_control.domain.story;
 
 public class StoryServiceImpl {
     
