@@ -15,7 +15,7 @@ interface ContentRepository extends MongoRepository<ContentEntity, ObjectId> {
      */
     Optional<ContentEntity> findByIdAndIsDeletedFalse(ObjectId id);
     
-    Optional<ContentEntity> findByVehicleIdAndDivisionIdAndStatusIsDeletedFalse(
+    Optional<ContentEntity> findByVehicleIdAndDivisionIdAndStatusAndIsDeletedFalse(
         ObjectId vehicleId,
         ObjectId divisionId,
         ContentStatus status

@@ -160,9 +160,17 @@ class ContentEntity {
         );
     }
 
-    public void modify() {
+    public void modify(String name, String code) {
         if (this.status != ContentStatus.DRAFT) {
             throw new IllegalStateException("Can only modify DRAFT");
+        }
+
+        if (name != null) {
+            this.name = name;
+        }
+
+        if (code != null) {
+            this.code = code;
         }
 
         this.modifiedCtr++;
