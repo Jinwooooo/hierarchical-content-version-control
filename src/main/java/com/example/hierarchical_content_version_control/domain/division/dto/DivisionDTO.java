@@ -1,7 +1,6 @@
 package com.example.hierarchical_content_version_control.domain.division.dto;
 
 import com.example.hierarchical_content_version_control.domain.division.enums.DivisionLevel;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
