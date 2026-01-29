@@ -9,10 +9,14 @@ import java.util.List;
 
 public interface ManagementService {
     /**
+     * ********************
      * Division ops
+     * ********************
      */
 
-    // CREATE ops
+    /**
+     * CREATE ops
+     */
     DivisionDTO createHQ(String code, String name);
     DivisionDTO createNSC(ObjectId parentDivisionId, String code, String name);
     DivisionDTO createDistributor(
@@ -21,15 +25,21 @@ public interface ManagementService {
         String name
     );
     
-    // READ ops
-    DivisionDTO findDivisionById(ObjectId id);
+    /**
+     * READ ops
+     */
+    DivisionDTO findDivisionById(ObjectId divisionId);
     List<DivisionDTO> findChildDivisions(ObjectId parentDivisionId);
 
     /**
+     * ********************
      * Content ops
+     * ********************
      */
 
-    // CREATE ops
+    /**
+     * CREATE ops
+     */
     ContentDTO createDraft(
         ObjectId vehicleId,
         ObjectId divisionId,
@@ -39,16 +49,20 @@ public interface ManagementService {
     );
     ContentDTO addFromParent(ObjectId parentId, ObjectId divisionId);
     ContentDTO publish(ObjectId draftId);
-    ContentDTO republish(ObjectId draftId);
+    ContentDTO distributorPublish(ObjectId draftId);
 
-    // UPDATE ops
+    /**
+     * UPDATE ops
+     */
     ContentDTO modifyDraft(
         ObjectId draftId, 
         String name, 
         String code
     );
     
-    // READ ops
+    /**
+     * READ ops
+     */
     ContentDTO findContentById(ObjectId id);
     ContentDTO findDraft(ObjectId vehicleId, ObjectId divisionId);
     ContentDTO findPublished(ObjectId vehicleId, ObjectId divisionId);
@@ -56,7 +70,9 @@ public interface ManagementService {
     List<ContentDTO> findAllPublishedByDivision(ObjectId divisionId);
     List<ContentDTO> findAvailable(ObjectId divisionId);
 
-    // (soft) DELETE ops
+    /**
+     * (soft) DELETE ops
+     */
     void softDeleteContent(ObjectId id);
     void restoreContent(ObjectId id);
 }
