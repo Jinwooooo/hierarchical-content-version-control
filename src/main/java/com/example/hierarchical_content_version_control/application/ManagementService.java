@@ -49,7 +49,7 @@ public interface ManagementService {
     );
     ContentDTO addFromParent(ObjectId parentId, ObjectId divisionId);
     ContentDTO publish(ObjectId draftId);
-    ContentDTO distributorPublish(ObjectId draftId);
+    ContentDTO leafPublish(ObjectId draftId);
 
     /**
      * UPDATE ops

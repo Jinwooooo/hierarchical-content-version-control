@@ -109,7 +109,7 @@ class ManagementServiceImpl implements ManagementService {
     }
 
     @Override
-    public ContentDTO distributorPublish(ObjectId draftId) {
+    public ContentDTO leafPublish(ObjectId draftId) {
         ContentDTO draft = contentService.findById(draftId);
         DivisionDTO division = divisionService.findById(draft.getDivisionId());
 
@@ -117,8 +117,9 @@ class ManagementServiceImpl implements ManagementService {
             throw new IllegalStateException("only DISTRIBUTOR can overwrite publish");
         }
 
-        // need to make distributorPublish in ContentService
-        return contentService.publish(draftId, 2);
+        int levelIdx = getLevelIndex(division.getLevel());
+
+        return contentService.leafPublish(draftId, levelIdx);
     }
 
     /**

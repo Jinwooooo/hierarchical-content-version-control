@@ -19,6 +19,7 @@ public interface ContentService {
     );
     ContentDTO addFromParent(ObjectId parentId, ObjectId divisionId);
     ContentDTO publish(ObjectId draftId, int levelIdx);
+    ContentDTO leafPublish(ObjectId draftId, int levelIdx);
 
     /**
      * UPDATE ops

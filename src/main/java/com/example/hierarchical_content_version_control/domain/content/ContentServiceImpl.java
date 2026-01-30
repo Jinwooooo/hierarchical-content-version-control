@@ -68,6 +68,31 @@ class ContentServiceImpl implements ContentService {
         return toDTO(saved);
     }
 
+    @Override
+    public ContentDTO leafPublish(ObjectId draftId, int levelIdx) {
+        ContentEntity draft = findEntityByIdOrThrow(draftId);
+
+        if (draft.getStatus() != ContentStatus.DRAFT) {
+            throw new IllegalStateException("Can only publish DRAFT content");
+        }
+        
+        if (publishedExists(draft.getVehicleId(), draft.getDivisionId())) {
+            ContentEntity existingPublished = contentRepository.findByVehicleIdAndDivisionIdAndStatusAndIsDeletedFalse(
+                draft.getVehicleId(), 
+                draft.getDivisionId(), 
+                ContentStatus.PUBLISHED
+            ).orElseThrow(() -> new IllegalStateException("PUBLISHED did not exist"));
+
+            existingPublished.softDelete();
+            contentRepository.save(existingPublished);
+        }
+
+        ContentEntity published = draft.publish(levelIdx);
+        ContentEntity saved = contentRepository.save(published);
+
+        return toDTO(saved);
+    }
+
     /**
      * UPDATE ops
      */
