@@ -1,19 +1,22 @@
 package com.example.hierarchical_content_version_control.domain.division;
 
 import com.example.hierarchical_content_version_control.domain.division.dto.DivisionDTO;                                                                    
-import com.example.hierarchical_content_version_control.domain.division.enums.DivisionLevel;                                                                
-import lombok.RequiredArgsConstructor;                                                                                                                      
-import org.bson.types.ObjectId;                                                                                                                             
-import org.springframework.stereotype.Service;                                                                                                              
-                                                                                                                                                            
+import com.example.hierarchical_content_version_control.domain.division.enums.DivisionLevel;
+import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List; 
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 class DivisionServiceImpl implements DivisionService {
     private final DivisionRepository divisionRepository;
 
     @Override
+    @Transactional
     public DivisionDTO createHQ(String code, String name) {
         DivisionEntity createdEntity = DivisionEntity.createHQ(code, name);
         DivisionEntity savedEntity = divisionRepository.save(createdEntity);
@@ -22,6 +25,7 @@ class DivisionServiceImpl implements DivisionService {
     }
 
     @Override
+    @Transactional
     public DivisionDTO createNSC(
         ObjectId parentDivisionId,
         String code,
@@ -37,6 +41,7 @@ class DivisionServiceImpl implements DivisionService {
     }
 
     @Override
+    @Transactional
     public DivisionDTO createDistributor(
         ObjectId parentDivisionId,
         String code,
@@ -75,6 +80,7 @@ class DivisionServiceImpl implements DivisionService {
     }
 
     @Override
+    @Transactional
     public void deleteById(ObjectId id) {
         if (!divisionRepository.existsById(id)) {
             throw new IllegalArgumentException("Division not found: " + id);
