@@ -9,11 +9,13 @@ import com.example.hierarchical_content_version_control.domain.division.enums.*;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
                                                                                                                                                               
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 class ManagementServiceImpl implements ManagementService {
     private final ContentService contentService;
     private final DivisionService divisionService;
@@ -28,11 +30,13 @@ class ManagementServiceImpl implements ManagementService {
      * CREATE ops
      */
     @Override
+    @Transactional
     public DivisionDTO createHQ(String code, String name) {
         return divisionService.createHQ(code, name);
     }
 
     @Override
+    @Transactional
     public DivisionDTO createNSC(
         ObjectId parentDivisionId,
         String code,
@@ -42,6 +46,7 @@ class ManagementServiceImpl implements ManagementService {
     }
 
     @Override
+    @Transactional
     public DivisionDTO createDistributor(
         ObjectId parentDivisionId,
         String code,
@@ -73,6 +78,7 @@ class ManagementServiceImpl implements ManagementService {
      * CREATE ops
      */
     @Override
+    @Transactional
     public ContentDTO createDraft(
         ObjectId vehicleId,
         ObjectId divisionId,
@@ -90,11 +96,13 @@ class ManagementServiceImpl implements ManagementService {
     }
 
     @Override
+    @Transactional
     public ContentDTO addFromParent(ObjectId parentPublishedId, ObjectId divisionId) {
         return contentService.addFromParent(parentPublishedId, divisionId);
     }
 
     @Override
+    @Transactional
     public ContentDTO publish(ObjectId draftId) {
         ContentDTO draft = contentService.findById(draftId);
         DivisionDTO division = divisionService.findById(draft.getDivisionId());
@@ -109,6 +117,7 @@ class ManagementServiceImpl implements ManagementService {
     }
 
     @Override
+    @Transactional
     public ContentDTO leafPublish(ObjectId draftId) {
         ContentDTO draft = contentService.findById(draftId);
         DivisionDTO division = divisionService.findById(draft.getDivisionId());
@@ -126,6 +135,7 @@ class ManagementServiceImpl implements ManagementService {
      * UPDATE ops
      */
     @Override
+    @Transactional
     public ContentDTO modifyDraft(ObjectId draftId, String name, String code) {
         return contentService.modify(draftId, name, code);
     }
@@ -175,11 +185,13 @@ class ManagementServiceImpl implements ManagementService {
      * (soft) DELETE ops
      */
     @Override
+    @Transactional
     public void softDeleteContent(ObjectId id) {
         contentService.softDelete(id);
     }
 
     @Override
+    @Transactional
     public void restoreContent(ObjectId id) {
         contentService.restore(id);
     }
