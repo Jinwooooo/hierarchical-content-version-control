@@ -3,14 +3,16 @@ package com.example.hierarchical_content_version_control.domain.content;
 import com.example.hierarchical_content_version_control.domain.content.dto.ContentDTO;                                                                      
 import com.example.hierarchical_content_version_control.domain.content.enums.*;
 
-import lombok.RequiredArgsConstructor;                                                                                                                      
-import org.bson.types.ObjectId;                                                                                                                             
-import org.springframework.stereotype.Service;                                                                                                              
-                                                                                                                                                            
+import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 class ContentServiceImpl implements ContentService {
 
     private final ContentRepository contentRepository;
@@ -19,6 +21,7 @@ class ContentServiceImpl implements ContentService {
      * CREATE ops
      */
     @Override
+    @Transactional
     public ContentDTO createHQDraft(
         ObjectId vehicleId,
         ObjectId divisionId,
@@ -37,6 +40,7 @@ class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional
     public ContentDTO addFromParent(ObjectId parentPublishedId, ObjectId divisionId) {
         ContentEntity parentPublished = findEntityByIdOrThrow(parentPublishedId);
 
@@ -55,6 +59,7 @@ class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional
     public ContentDTO publish(ObjectId draftId, int levelIdx) {
         ContentEntity draft = findEntityByIdOrThrow(draftId);
 
@@ -69,6 +74,7 @@ class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional
     public ContentDTO leafPublish(ObjectId draftId, int levelIdx) {
         ContentEntity draft = findEntityByIdOrThrow(draftId);
 
@@ -97,6 +103,7 @@ class ContentServiceImpl implements ContentService {
      * UPDATE ops
      */
     @Override
+    @Transactional
     public ContentDTO modify(
         ObjectId draftId, 
         String name, 
@@ -166,6 +173,7 @@ class ContentServiceImpl implements ContentService {
      * (soft) DELETE ops
      */
     @Override
+    @Transactional
     public void softDelete(ObjectId id) {
         ContentEntity entity = findEntityByIdOrThrow(id);
         entity.softDelete();
@@ -173,6 +181,7 @@ class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional
     public void restore(ObjectId id) {
         ContentEntity entity = contentRepository.findById(id)
                                 .orElseThrow(() -> new IllegalArgumentException("Content not found: " + id));
